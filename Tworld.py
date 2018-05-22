@@ -39,11 +39,5 @@ class Tworld():
         self.driver.switch_to.window('')
         self.driver.switch_to.frame('login_area')
         self.driver.switch_to.frame('freebillIframe')
-        #data = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/span[1]/strong').text
         data = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/span[1]').text
         return data
-
-
-tworld = Tworld()
-if tworld.login(user_id, user_pass):
-    print(tworld.get_available_data())
