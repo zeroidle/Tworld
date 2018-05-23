@@ -1,5 +1,6 @@
 from selenium import webdriver
 import time
+import sys
 
 class Tworld():
     driver = ""
@@ -9,7 +10,7 @@ class Tworld():
     def __init__(self):
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
-        options.add_argument("lang=ko_KR")  # 한국어!
+        options.add_argument("lang=ko_KR")
         options.add_argument(
             "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
 
@@ -41,3 +42,15 @@ class Tworld():
         self.driver.switch_to.frame('freebillIframe')
         data = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/span[1]').text
         return data
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("arguments required.")
+        exit(0)
+
+    user_id = sys.argv[1]
+    user_pass = sys.argv[2]
+
+    tworld = Tworld()
+    if tworld.login(user_id, user_pass):
+        print(tworld.get_available_data())
