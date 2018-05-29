@@ -15,3 +15,4 @@ if tworld.login(user_id, user_pass):
     print(tworld.get_available_data())
 </code>
 </pre>
+<img src='https://user-images.githubusercontent.com/6409339/40640576-90833536-6351-11e8-9996-bcf72627fa42.png'>
