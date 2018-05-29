@@ -12,7 +12,7 @@ user_pass="패스워드"
 
 tworld = Tworld()
 if tworld.login(user_id, user_pass):
-    print(tworld.get_available_data())
+    print(tworld.get_available_data_in_mb())
 </code>
 </pre>
 <img src='https://user-images.githubusercontent.com/6409339/40640576-90833536-6351-11e8-9996-bcf72627fa42.png'>
