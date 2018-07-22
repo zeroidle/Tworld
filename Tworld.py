@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3.6
 from selenium import webdriver
 import time
 import sys
