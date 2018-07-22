@@ -1,6 +1,9 @@
+#!/usr/local/bin/python3.6
 from selenium import webdriver
 import time
 import sys
+import os
+import platform
 
 class Tworld():
     driver = ""
@@ -8,13 +11,17 @@ class Tworld():
     user_pass = ""
 
     def __init__(self):
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        options.add_argument("lang=ko_KR")
-        options.add_argument(
-            "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+        if platform.system() == "Darwin": # OSX
+            options = webdriver.ChromeOptions()
+            #options.add_argument('headless')
+            options.add_argument("lang=ko_KR")
+            options.add_argument(
+                "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
 
-        self.driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+            self.driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+        else:
+            self.driver = webdriver.PhantomJS()
+
         self.driver.implicitly_wait(3)
 
     def login(self, user_id, user_pass):
@@ -36,12 +43,22 @@ class Tworld():
         except:
             return False
 
-    def get_available_data(self):
+    def get_available_data_in_mb(self):
         self.driver.switch_to.window('')
         self.driver.switch_to.frame('login_area')
         self.driver.switch_to.frame('freebillIframe')
-        data = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/span[1]').text
+        data = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[3]/span[1]').text
+        value, standard = data.split(" ")
+        self.driver.quit()
+
+        if standard == "MB":
+            data = value.replace(",", "")
+        elif standard == "GB":
+            data = float(value) * 1000
+        else:
+            data = "999"
         return data
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -53,4 +70,4 @@ if __name__ == '__main__':
 
     tworld = Tworld()
     if tworld.login(user_id, user_pass):
-        print(tworld.get_available_data())
+        print(tworld.get_available_data_in_mb())
