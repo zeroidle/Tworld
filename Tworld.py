@@ -24,6 +24,8 @@ class Tworld():
         self.driver.implicitly_wait(3)
 
     def login(self, user_id, user_pass):
+        rtn_value = False
+
         try:
             self.user_id = user_id
             self.user_pass = user_pass
@@ -37,10 +39,15 @@ class Tworld():
             self.driver.find_element_by_id('password').send_keys(self.user_pass)
             self.driver.find_element_by_id('authLogin').click()
             time.sleep(1)
-            return True
+            rtn_value = True
+            self.driver.find_element_by_id('nextChange').click()
 
         except:
-            return False
+            if rtn_value:
+                return True
+            else:
+                return False
+
 
     def get_available_data_in_mb(self):
         self.driver.switch_to.window('')
